@@ -61,14 +61,14 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       color: #1a202c;
     }
 
-    /* DESKTOP LAYOUT - 2 COLONNES */
+    /* DESKTOP LAYOUT - 2 COLONNES (60% / 40%) */
     #configurator {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: 60fr 40fr;
       min-height: 100vh;
       gap: 0;
       padding: 0;
-      background: #f0f2f5;
+      background: #f5f5f5;
     }
 
     /* COLONNE GAUCHE - 3D FIXE */
@@ -78,7 +78,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       height: 100vh;
       display: flex;
       flex-direction: column;
-      background: #fff;
+      background: #ffffff;
     }
 
     /* TOP SECTION - MODÈLE 3D */
@@ -95,51 +95,66 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       position: relative;
     }
 
-    /* SECTION RÉSUMÉ SOUS LE 3D */
+    /* SECTION RÉSUMÉ SOUS LE 3D - Design Premium */
     .summary-section {
       max-height: 0;
       overflow: hidden;
-      background: #f8fafc;
-      border-top: 1px solid #e2e8f0;
-      transition: max-height 0.4s ease;
-      padding: 0 1.5rem;
+      background: #ffffff;
+      margin: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+      transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s ease, transform 0.6s ease;
+      padding: 0;
+      opacity: 0;
+      transform: translateY(-10px);
     }
 
     .summary-section.visible {
-      max-height: 400px;
+      max-height: 500px;
       overflow-y: auto;
       padding: 1.5rem;
+      opacity: 1;
+      transform: translateY(0);
     }
 
     .summary-title {
       font-size: 1.1rem;
       font-weight: 600;
       margin-bottom: 1rem;
-      color: #1a202c;
+      color: #1a1a1a;
+      border-bottom: 1px solid #e5e7eb;
+      padding-bottom: 0.75rem;
     }
 
     .summary-grid {
       display: grid;
-      gap: 0.75rem;
+      gap: 0.5rem;
     }
 
     .summary-item {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 0.5rem;
-      background: #fff;
-      border-radius: 6px;
-      font-size: 0.85rem;
+      padding: 0.75rem;
+      background: #f9fafb;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      border: 1px solid #f0f0f0;
+      transition: all 0.2s ease;
+    }
+
+    .summary-item:hover {
+      background: #f3f4f6;
+      border-color: #e5e7eb;
     }
 
     .summary-item-label {
       font-weight: 500;
-      color: #374151;
+      color: #4b5563;
     }
 
     .summary-item-value {
-      color: #006aff;
+      color: #1a1a1a;
       font-weight: 600;
     }
 
@@ -240,56 +255,68 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       padding: 2rem;
     }
 
-    /* SYSTÈME D'ACCORDION */
+    /* SYSTÈME D'ACCORDION - STYLE PORSCHE PREMIUM */
     .accordion-section {
-      margin-bottom: 1rem;
-      border: 1px solid #e2e8f0;
-      border-radius: 8px;
+      margin-bottom: 0.5rem;
+      border: none;
+      border-bottom: 1px solid #e5e7eb;
       overflow: hidden;
-      background: #fff;
+      background: transparent;
     }
 
     .accordion-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1.25rem 1.5rem;
-      background: #f8fafc;
+      padding: 1.25rem 0;
+      background: transparent;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.2s ease;
       user-select: none;
+      border: none;
     }
 
     .accordion-header:hover {
-      background: #f1f5f9;
+      opacity: 0.7;
     }
 
     .accordion-header.active {
-      background: #e0f2fe;
-      border-bottom: 1px solid #e2e8f0;
+      background: transparent;
+      border-bottom: none;
     }
 
     .accordion-title {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      font-size: 1rem;
-      font-weight: 600;
-      color: #1a202c;
+      gap: 0;
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: #1a1a1a;
+      letter-spacing: -0.01em;
     }
 
     .accordion-icon {
-      font-size: 1.2rem;
+      display: none;
     }
 
     .accordion-toggle {
-      font-size: 1.5rem;
-      color: #64748b;
-      transition: transform 0.3s ease;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: #1a1a1a;
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .accordion-toggle::before {
+      content: '+';
     }
 
     .accordion-header.active .accordion-toggle {
-      transform: rotate(180deg);
+      transform: rotate(45deg);
     }
 
     .accordion-content {
@@ -304,104 +331,101 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       padding: 1.5rem;
     }
 
-    /* CARDS STYLE DE VIE */
+    /* CARDS STYLE DE VIE - DESIGN PREMIUM PORSCHE */
     .lifestyle-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
-      margin-top: 1rem;
+      gap: 0.75rem;
+      margin-top: 1.5rem;
     }
 
     .lifestyle-card {
-      border: 2px solid #e2e8f0;
-      border-radius: 12px;
-      padding: 1.5rem;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      padding: 0;
       cursor: pointer;
-      transition: all 0.3s ease;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       text-align: center;
-      background: linear-gradient(135deg, #f8fafc 0%, #fff 100%);
+      background: #ffffff;
       position: relative;
+      overflow: hidden;
     }
 
     .lifestyle-card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      border-color: #006aff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-color: #d1d5db;
     }
 
     .lifestyle-card.selected {
-      border-color: #006aff;
-      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
-      box-shadow: 0 4px 16px rgba(0, 106, 255, 0.2);
+      border-color: #1a1a1a;
+      border-width: 2px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
     }
 
     .lifestyle-card.selected::after {
       content: '✓';
       position: absolute;
-      top: 12px;
-      right: 12px;
-      width: 24px;
-      height: 24px;
-      background: #006aff;
+      top: 8px;
+      right: 8px;
+      width: 20px;
+      height: 20px;
+      background: #1a1a1a;
       color: white;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 14px;
+      font-size: 12px;
       font-weight: bold;
+      z-index: 10;
     }
 
     .lifestyle-icon {
-      font-size: 3rem;
-      margin-bottom: 1rem;
-      height: 80px;
+      width: 100%;
+      height: 140px;
       display: flex;
       align-items: center;
       justify-content: center;
-      border-radius: 12px;
-      background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
+      overflow: hidden;
+      background: #f9fafb;
     }
 
-    .lifestyle-card:nth-child(1) .lifestyle-icon {
-      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
-    }
-
-    .lifestyle-card:nth-child(2) .lifestyle-icon {
-      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
-    }
-
-    .lifestyle-card:nth-child(3) .lifestyle-icon {
-      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    .lifestyle-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .lifestyle-title {
-      font-size: 1rem;
+      font-size: 0.9rem;
       font-weight: 600;
-      margin-bottom: 0.5rem;
-      color: #1a202c;
+      margin: 1rem 0.75rem 0.5rem;
+      color: #1a1a1a;
+      line-height: 1.3;
     }
 
     .lifestyle-description {
-      font-size: 0.85rem;
-      color: #64748b;
+      font-size: 0.75rem;
+      color: #6b7280;
       line-height: 1.4;
-      margin-bottom: 1rem;
+      margin: 0 0.75rem;
+      padding-bottom: 1rem;
     }
 
     .lifestyle-btn {
       display: inline-block;
       padding: 0.5rem 1rem;
-      background: #006aff;
+      background: #1a1a1a;
       color: white;
-      border-radius: 6px;
-      font-size: 0.85rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
       font-weight: 500;
       text-decoration: none;
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(5px);
       transition: all 0.3s ease;
-      margin-top: 0.5rem;
+      margin: 0 0.75rem 1rem;
     }
 
     .lifestyle-card.selected .lifestyle-btn {
@@ -410,8 +434,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
     }
 
     .lifestyle-btn:hover {
-      background: #0056d6;
-      transform: scale(1.05);
+      background: #404040;
     }
 
     /* OPTIONS TERRAIN */
@@ -733,7 +756,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       cursor: pointer;
     }
 
-    /* MODALS / POP-UPS */
+    /* MODALS / POP-UPS - DESIGN PREMIUM */
     .modal {
       display: none;
       position: fixed;
@@ -741,16 +764,16 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(26, 26, 26, 0.75);
       z-index: 2000;
       align-items: center;
       justify-content: center;
-      backdrop-filter: blur(4px);
-      animation: fadeIn 0.3s ease;
+      backdrop-filter: blur(8px);
+      animation: fadeIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .modal.active {
-      display: flex;
+      display: flex !important;
     }
 
     @keyframes fadeIn {
@@ -760,43 +783,45 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
 
     .modal-content {
       background: white;
-      border-radius: 16px;
+      border-radius: 12px;
       width: 90%;
-      max-width: 600px;
+      max-width: 650px;
       max-height: 90vh;
       overflow-y: auto;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-      animation: slideUp 0.3s ease;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.2);
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
       position: relative;
     }
 
     @keyframes slideUp {
       from {
-        transform: translateY(50px);
+        transform: translateY(40px) scale(0.96);
         opacity: 0;
       }
       to {
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
         opacity: 1;
       }
     }
 
     .modal-header {
-      padding: 2rem 2rem 1rem;
-      border-bottom: 1px solid #e2e8f0;
+      padding: 2rem 2rem 1.5rem;
+      border-bottom: 1px solid #f0f0f0;
       position: relative;
     }
 
     .modal-title {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 600;
-      color: #1a202c;
+      color: #1a1a1a;
       margin-bottom: 0.5rem;
+      letter-spacing: -0.02em;
     }
 
     .modal-subtitle {
       font-size: 0.9rem;
-      color: #64748b;
+      color: #6b7280;
+      font-weight: 400;
     }
 
     .modal-close {
@@ -806,20 +831,21 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       width: 32px;
       height: 32px;
       border: none;
-      background: #f1f5f9;
+      background: transparent;
       border-radius: 50%;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
-      color: #64748b;
-      transition: all 0.3s ease;
+      font-size: 1.4rem;
+      color: #9ca3af;
+      transition: all 0.2s ease;
+      font-weight: 300;
     }
 
     .modal-close:hover {
-      background: #e2e8f0;
-      color: #1a202c;
+      background: #f3f4f6;
+      color: #1a1a1a;
       transform: rotate(90deg);
     }
 
@@ -1577,17 +1603,18 @@ body::before {
         <div class="accordion-section">
           <div class="accordion-header" onclick="toggleAccordion(this)">
             <div class="accordion-title">
-              <span class="accordion-icon">🏡</span>
               <span>Quel style de vie vous correspond ?</span>
             </div>
-            <span class="accordion-toggle">▼</span>
+            <span class="accordion-toggle"></span>
           </div>
           <div class="accordion-content">
             <p style="margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;">Choisissez votre univers :</p>
             <div class="lifestyle-cards">
               <!-- Card 1: Intemporel'home -->
               <div class="lifestyle-card" onclick="selectLifestyle(this, 'intemporel')">
-                <div class="lifestyle-icon">👨‍👩‍👧‍👦</div>
+                <div class="lifestyle-icon">
+                  <img src="./intemporelhome.png" alt="Intemporel'home">
+                </div>
                 <h4 class="lifestyle-title">Vie de famille confortable</h4>
                 <p class="lifestyle-description">Espaces généreux, terrasse pour les enfants</p>
                 <a href="https://www.luly-homes.com/template/intemporelhome" target="_blank" class="lifestyle-btn">Découvrir Intemporel'home</a>
@@ -1595,15 +1622,19 @@ body::before {
 
               <!-- Card 2: Tradi'home (actuel) -->
               <div class="lifestyle-card selected" onclick="selectLifestyle(this, 'tradihome')">
-                <div class="lifestyle-icon">🌿</div>
+                <div class="lifestyle-icon">
+                  <img src="./tradi'home.png" alt="Tradi'home">
+                </div>
                 <h4 class="lifestyle-title">Cocon intimiste</h4>
                 <p class="lifestyle-description">Couple, premier achat, optimisation espace</p>
-                <span class="lifestyle-btn" style="opacity: 1; background: #10b981; pointer-events: none;">Configuration actuelle</span>
+                <span class="lifestyle-btn" style="opacity: 1; background: #1a1a1a; pointer-events: none;">Configuration actuelle</span>
               </div>
 
               <!-- Card 3: Modern'home -->
               <div class="lifestyle-card" onclick="selectLifestyle(this, 'modern')">
-                <div class="lifestyle-icon">✨</div>
+                <div class="lifestyle-icon">
+                  <img src="./modernhome.png" alt="Modern'home">
+                </div>
                 <h4 class="lifestyle-title">Design & modernité</h4>
                 <p class="lifestyle-description">Esthétique contemporaine, lignes épurées</p>
                 <a href="https://www.luly-homes.com/template/modernhome" target="_blank" class="lifestyle-btn">Découvrir Modern'home</a>
@@ -1616,10 +1647,9 @@ body::before {
         <div class="accordion-section">
           <div class="accordion-header active" onclick="toggleAccordion(this)">
             <div class="accordion-title">
-              <span class="accordion-icon">📊</span>
               <span>Informations de la maison</span>
             </div>
-            <span class="accordion-toggle">▼</span>
+            <span class="accordion-toggle"></span>
           </div>
           <div class="accordion-content active">
             <!-- ÉNERGIE + PLAN CÔTE À CÔTE -->
@@ -1747,10 +1777,9 @@ body::before {
         <div class="accordion-section">
           <div class="accordion-header active" onclick="toggleAccordion(this)">
             <div class="accordion-title">
-              <span class="accordion-icon">🎨</span>
               <span>Personnalisation de votre maison</span>
             </div>
-            <span class="accordion-toggle">▼</span>
+            <span class="accordion-toggle"></span>
           </div>
           <div class="accordion-content active">
             <!-- GRILLE 3x2 POUR LES CONFIGURATIONS -->
@@ -1879,10 +1908,9 @@ body::before {
         <div class="accordion-section">
           <div class="accordion-header" onclick="toggleAccordion(this)">
             <div class="accordion-title">
-              <span class="accordion-icon">📍</span>
               <span>Avez-vous déjà votre terrain ?</span>
             </div>
-            <span class="accordion-toggle">▼</span>
+            <span class="accordion-toggle"></span>
           </div>
           <div class="accordion-content">
             <p style="margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;">💡 Pour vous guider au mieux :</p>
@@ -1921,10 +1949,9 @@ body::before {
         <div class="accordion-section">
           <div class="accordion-header" onclick="toggleAccordion(this)">
             <div class="accordion-title">
-              <span class="accordion-icon">📅</span>
               <span>Quand souhaitez-vous emménager ?</span>
             </div>
-            <span class="accordion-toggle">▼</span>
+            <span class="accordion-toggle"></span>
           </div>
           <div class="accordion-content">
             <p style="margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;">📅 Votre timeline idéale :</p>
@@ -2238,27 +2265,42 @@ body::before {
       updateSummarySection();
     }
 
-    // Fonction pour sélectionner un CTA
+    // Fonction pour sélectionner un CTA - VERSION CORRIGÉE
     function selectCTA(option, action) {
+      console.log('selectCTA appelé avec action:', action);
+
       const radio = option.querySelector('input[type="radio"]');
-      radio.checked = true;
+      if (radio) {
+        radio.checked = true;
+      }
 
       // Actions selon le type de CTA
       if (action === 'calendly') {
-        openModal('modal-calendly');
+        console.log('Tentative d\'ouverture du modal Calendly');
+        // Délai court pour s'assurer que le DOM est prêt
+        setTimeout(() => {
+          openModal('modal-calendly');
+        }, 50);
       } else if (action === 'financement') {
         window.open('https://www.luly-homes.com/landing-page/calculateurvsl', '_blank');
       } else if (action === 'info') {
-        openModal('modal-info');
+        setTimeout(() => {
+          openModal('modal-info');
+        }, 50);
       }
     }
 
-    // Fonction pour ouvrir un modal
+    // Fonction pour ouvrir un modal - VERSION AMÉLIORÉE
     function openModal(modalId) {
+      console.log('openModal appelé pour:', modalId);
       const modal = document.getElementById(modalId);
       if (modal) {
+        console.log('Modal trouvé, ajout de la classe active');
         modal.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Empêcher le scroll de la page
+        modal.style.display = 'flex'; // Force l'affichage
+        document.body.style.overflow = 'hidden';
+      } else {
+        console.error('Modal non trouvé:', modalId);
       }
     }
 
