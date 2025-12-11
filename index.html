@@ -61,28 +61,93 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       color: #1a202c;
     }
 
-    /* DESKTOP LAYOUT */
+    /* DESKTOP LAYOUT - 2 COLONNES */
     #configurator {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 100vh;
+      gap: 0;
+      padding: 0;
+      background: #f0f2f5;
+    }
+
+    /* COLONNE GAUCHE - 3D FIXE */
+    .left-panel {
+      position: sticky;
+      top: 0;
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
-      gap: 0.5rem;
-      padding: 1rem;
+      background: #fff;
     }
 
-    /* TOP SECTION - MODÈLE 3D UNIQUEMENT */
+    /* TOP SECTION - MODÈLE 3D */
     .top-section {
-      height: 50vh;
+      flex: 1;
+      position: relative;
     }
 
-    /* MODÈLE 3D PLEINE LARGEUR */
+    /* MODÈLE 3D */
     .viewer-card {
       background: #fff;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       overflow: hidden;
       height: 100%;
       position: relative;
+    }
+
+    /* SECTION RÉSUMÉ SOUS LE 3D */
+    .summary-section {
+      max-height: 0;
+      overflow: hidden;
+      background: #f8fafc;
+      border-top: 1px solid #e2e8f0;
+      transition: max-height 0.4s ease;
+      padding: 0 1.5rem;
+    }
+
+    .summary-section.visible {
+      max-height: 400px;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    .summary-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1a202c;
+    }
+
+    .summary-grid {
+      display: grid;
+      gap: 0.75rem;
+    }
+
+    .summary-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.5rem;
+      background: #fff;
+      border-radius: 6px;
+      font-size: 0.85rem;
+    }
+
+    .summary-item-label {
+      font-weight: 500;
+      color: #374151;
+    }
+
+    .summary-item-value {
+      color: #006aff;
+      font-weight: 600;
+    }
+
+    /* COLONNE DROITE - OPTIONS SCROLLABLES */
+    .right-panel {
+      background: #fff;
+      overflow-y: auto;
+      height: 100vh;
     }
 
     model-viewer {
@@ -172,9 +237,251 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
     }
 
     .config-content {
+      padding: 2rem;
+    }
+
+    /* SYSTÈME D'ACCORDION */
+    .accordion-section {
+      margin-bottom: 1rem;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .accordion-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 1.5rem;
+      background: #f8fafc;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      user-select: none;
+    }
+
+    .accordion-header:hover {
+      background: #f1f5f9;
+    }
+
+    .accordion-header.active {
+      background: #e0f2fe;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .accordion-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a202c;
+    }
+
+    .accordion-icon {
+      font-size: 1.2rem;
+    }
+
+    .accordion-toggle {
+      font-size: 1.5rem;
+      color: #64748b;
+      transition: transform 0.3s ease;
+    }
+
+    .accordion-header.active .accordion-toggle {
+      transform: rotate(180deg);
+    }
+
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s ease;
+      padding: 0 1.5rem;
+    }
+
+    .accordion-content.active {
+      max-height: 2000px;
+      padding: 1.5rem;
+    }
+
+    /* CARDS STYLE DE VIE */
+    .lifestyle-cards {
       display: grid;
-      grid-template-columns: 1fr 1.2fr;
-      gap: 1.5rem;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-top: 1rem;
+    }
+
+    .lifestyle-card {
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 1.5rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+      background: linear-gradient(135deg, #f8fafc 0%, #fff 100%);
+      position: relative;
+    }
+
+    .lifestyle-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+      border-color: #006aff;
+    }
+
+    .lifestyle-card.selected {
+      border-color: #006aff;
+      background: linear-gradient(135deg, #dbeafe 0%, #eff6ff 100%);
+      box-shadow: 0 4px 16px rgba(0, 106, 255, 0.2);
+    }
+
+    .lifestyle-card.selected::after {
+      content: '✓';
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 24px;
+      height: 24px;
+      background: #006aff;
+      color: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      font-weight: bold;
+    }
+
+    .lifestyle-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      height: 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #e0f2fe 0%, #bfdbfe 100%);
+    }
+
+    .lifestyle-card:nth-child(1) .lifestyle-icon {
+      background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+    }
+
+    .lifestyle-card:nth-child(2) .lifestyle-icon {
+      background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    }
+
+    .lifestyle-card:nth-child(3) .lifestyle-icon {
+      background: linear-gradient(135deg, #e0e7ff 0%, #c7d2fe 100%);
+    }
+
+    .lifestyle-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: #1a202c;
+    }
+
+    .lifestyle-description {
+      font-size: 0.85rem;
+      color: #64748b;
+      line-height: 1.4;
+      margin-bottom: 1rem;
+    }
+
+    .lifestyle-btn {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: #006aff;
+      color: white;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      text-decoration: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+    }
+
+    .lifestyle-card.selected .lifestyle-btn {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .lifestyle-btn:hover {
+      background: #0056d6;
+      transform: scale(1.05);
+    }
+
+    /* OPTIONS TERRAIN */
+    .radio-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+
+    .radio-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .radio-option:hover {
+      border-color: #cbd5e1;
+      background: #f8fafc;
+    }
+
+    .radio-option.selected {
+      border-color: #006aff;
+      background: #eff6ff;
+    }
+
+    .radio-option input[type="radio"] {
+      margin-top: 0.25rem;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .radio-label {
+      flex: 1;
+      font-size: 0.9rem;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    .conditional-field {
+      margin-top: 0.5rem;
+      margin-left: 1.75rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease;
+    }
+
+    .conditional-field.visible {
+      max-height: 100px;
+    }
+
+    .conditional-field input {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #d1d5db;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      margin-top: 0.5rem;
+    }
+
+    .conditional-field input:focus {
+      outline: none;
+      border-color: #006aff;
+      box-shadow: 0 0 0 3px rgba(0, 106, 255, 0.1);
     }
 
     /* COLONNE GAUCHE - ÉNERGIE + PLAN + INFOS MAISON */
@@ -182,6 +489,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       display: flex;
       flex-direction: column;
       gap: 1rem;
+      padding: 1.5rem;
     }
 
     /* SECTION ÉNERGIE + PLAN CÔTE À CÔTE */
@@ -370,6 +678,249 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       color: #666;
     }
 
+    /* SECTION CTA */
+    .cta-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: #f8fafc;
+      border-radius: 12px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .cta-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: #1a202c;
+    }
+
+    .cta-options {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .cta-option {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 1.25rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      background: #fff;
+    }
+
+    .cta-option:hover {
+      border-color: #006aff;
+      box-shadow: 0 4px 12px rgba(0, 106, 255, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .cta-option input[type="radio"] {
+      margin-top: 0.25rem;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .cta-label {
+      flex: 1;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    /* MODALS / POP-UPS */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      animation: fadeIn 0.3s ease;
+    }
+
+    .modal.active {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal-content {
+      background: white;
+      border-radius: 16px;
+      width: 90%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      animation: slideUp 0.3s ease;
+      position: relative;
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(50px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-header {
+      padding: 2rem 2rem 1rem;
+      border-bottom: 1px solid #e2e8f0;
+      position: relative;
+    }
+
+    .modal-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #1a202c;
+      margin-bottom: 0.5rem;
+    }
+
+    .modal-subtitle {
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 1.5rem;
+      right: 1.5rem;
+      width: 32px;
+      height: 32px;
+      border: none;
+      background: #f1f5f9;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: #64748b;
+      transition: all 0.3s ease;
+    }
+
+    .modal-close:hover {
+      background: #e2e8f0;
+      color: #1a202c;
+      transform: rotate(90deg);
+    }
+
+    .modal-body {
+      padding: 2rem;
+    }
+
+    /* Formulaire dans modal */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: #374151;
+      margin-bottom: 0.5rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #006aff;
+      box-shadow: 0 0 0 3px rgba(0, 106, 255, 0.1);
+    }
+
+    .form-checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .form-checkbox {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.75rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .form-checkbox:hover {
+      background: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .form-checkbox input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .form-checkbox label {
+      flex: 1;
+      font-size: 0.85rem;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      width: 100%;
+      padding: 1rem;
+      background: #006aff;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background: #0056d6;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 106, 255, 0.3);
+    }
+
+    .btn-primary:disabled {
+      background: #cbd5e1;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Calendly iframe */
+    .calendly-container {
+      width: 100%;
+      min-height: 700px;
+    }
+
     /* COLONNE DROITE - CONFIGURATION */
     .right-column {
       display: flex;
@@ -381,7 +932,6 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
     .config-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      grid-template-rows: repeat(2, 1fr);
       gap: 0.75rem;
       margin-bottom: 1rem;
     }
@@ -603,23 +1153,105 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
 
     /* RESPONSIVE MOBILE */
     @media (max-width: 768px) {
-      #configurator { 
+      #configurator {
         display: flex;
         flex-direction: column;
         min-height: 100vh;
         gap: 0;
         padding: 0;
       }
-      
-      .top-section {
-        height: 35vh;
-        min-height: 250px;
+
+      /* Panneau gauche devient la partie supérieure */
+      .left-panel {
+        position: relative;
+        height: auto;
       }
-      
+
+      /* Panneau droit devient scrollable en dessous */
+      .right-panel {
+        height: auto;
+      }
+
+      .top-section {
+        height: 40vh;
+        min-height: 300px;
+      }
+
       /* MODÈLE 3D EN PLEINE LARGEUR EN HAUT */
       .viewer-card {
         border-radius: 0;
-        order: 1;
+      }
+
+      /* Summary section mobile */
+      .summary-section.visible {
+        max-height: 300px;
+        padding: 1rem;
+      }
+
+      .summary-title {
+        font-size: 0.9rem;
+      }
+
+      .summary-item {
+        font-size: 0.75rem;
+        padding: 0.4rem;
+      }
+
+      /* Lifestyle cards en colonne sur mobile */
+      .lifestyle-cards {
+        grid-template-columns: 1fr;
+      }
+
+      .lifestyle-card {
+        padding: 1rem;
+      }
+
+      .lifestyle-icon {
+        height: 60px;
+        font-size: 2rem;
+      }
+
+      .lifestyle-title {
+        font-size: 0.9rem;
+      }
+
+      .lifestyle-description {
+        font-size: 0.75rem;
+      }
+
+      /* Modal adapté mobile */
+      .modal-content {
+        width: 95%;
+        max-height: 95vh;
+      }
+
+      .modal-header {
+        padding: 1.5rem 1rem 1rem;
+      }
+
+      .modal-title {
+        font-size: 1.1rem;
+      }
+
+      .modal-body {
+        padding: 1rem;
+      }
+
+      .calendly-container {
+        min-height: 500px;
+      }
+
+      /* CTA section mobile */
+      .cta-section {
+        padding: 1rem;
+      }
+
+      .cta-option {
+        padding: 1rem;
+      }
+
+      .cta-label {
+        font-size: 0.85rem;
       }
       
       .rotation-indicators {
@@ -889,39 +1521,50 @@ body::before {
   </div>
 
   <div id="configurator">
-    <!-- TOP SECTION - MODÈLE 3D UNIQUEMENT -->
-    <div class="top-section">
-      <div class="viewer-card">
-        <model-viewer
-          id="mv"
-          src="./TRADIHOME74.glb"
-          alt="Maison Tradi'home"
-          camera-orbit="15deg 75deg 12m"
-          field-of-view="45deg"
-          exposure="0.8"
-          shadow-intensity="2.5"
-          shadow-softness="1"
-          camera-controls
-          min-camera-orbit="-Infinity 0deg 8m"
-          max-camera-orbit="Infinity 90deg 20m"
-          camera-target="0m 1m 0m"
-          interaction-prompt="none">
-        </model-viewer>
-        <!-- Flèches d'indication style Volkswagen -->
-        <div class="rotation-indicators">
-          <div class="rotation-hint">
-            <div class="rotation-arrows">
-              <div class="rotation-arrow">◀</div>
-              <div class="rotation-arrow">▶</div>
+    <!-- PANNEAU GAUCHE - 3D FIXE + RÉSUMÉ -->
+    <div class="left-panel">
+      <!-- TOP SECTION - MODÈLE 3D -->
+      <div class="top-section">
+        <div class="viewer-card">
+          <model-viewer
+            id="mv"
+            src="./TRADIHOME74.glb"
+            alt="Maison Tradi'home"
+            camera-orbit="15deg 75deg 12m"
+            field-of-view="45deg"
+            exposure="0.8"
+            shadow-intensity="2.5"
+            shadow-softness="1"
+            camera-controls
+            min-camera-orbit="-Infinity 0deg 8m"
+            max-camera-orbit="Infinity 90deg 20m"
+            camera-target="0m 1m 0m"
+            interaction-prompt="none">
+          </model-viewer>
+          <!-- Flèches d'indication -->
+          <div class="rotation-indicators">
+            <div class="rotation-hint">
+              <div class="rotation-arrows">
+                <div class="rotation-arrow">◀</div>
+                <div class="rotation-arrow">▶</div>
+              </div>
+              <span>Faites glisser pour faire tourner</span>
             </div>
-            <span>Faites glisser pour faire tourner</span>
           </div>
+        </div>
+      </div>
+
+      <!-- SECTION RÉSUMÉ (s'affiche au scroll) -->
+      <div class="summary-section" id="summary-section">
+        <h3 class="summary-title">Votre configuration</h3>
+        <div class="summary-grid" id="summary-grid">
+          <!-- Sera rempli dynamiquement -->
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM SECTION - CONFIGURATION -->
-    <div class="bottom-section">
+    <!-- PANNEAU DROIT - OPTIONS SCROLLABLES -->
+    <div class="right-panel">
       <!-- TITRE ET PRIX -->
       <div class="config-header">
         <h2>Configuration Tradi'home</h2>
@@ -929,10 +1572,58 @@ body::before {
       </div>
 
       <div class="config-content">
-        <!-- COLONNE GAUCHE - ÉNERGIE + PLAN + INFOS MAISON -->
-        <div class="left-column">
-          <!-- ÉNERGIE + PLAN CÔTE À CÔTE -->
-          <div class="energy-plan-section">
+
+        <!-- Q1: STYLE DE VIE -->
+        <div class="accordion-section">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title">
+              <span class="accordion-icon">🏡</span>
+              <span>Quel style de vie vous correspond ?</span>
+            </div>
+            <span class="accordion-toggle">▼</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;">Choisissez votre univers :</p>
+            <div class="lifestyle-cards">
+              <!-- Card 1: Intemporel'home -->
+              <div class="lifestyle-card" onclick="selectLifestyle(this, 'intemporel')">
+                <div class="lifestyle-icon">👨‍👩‍👧‍👦</div>
+                <h4 class="lifestyle-title">Vie de famille confortable</h4>
+                <p class="lifestyle-description">Espaces généreux, terrasse pour les enfants</p>
+                <a href="https://www.luly-homes.com/template/intemporelhome" target="_blank" class="lifestyle-btn">Découvrir Intemporel'home</a>
+              </div>
+
+              <!-- Card 2: Tradi'home (actuel) -->
+              <div class="lifestyle-card selected" onclick="selectLifestyle(this, 'tradihome')">
+                <div class="lifestyle-icon">🌿</div>
+                <h4 class="lifestyle-title">Cocon intimiste</h4>
+                <p class="lifestyle-description">Couple, premier achat, optimisation espace</p>
+                <span class="lifestyle-btn" style="opacity: 1; background: #10b981; pointer-events: none;">Configuration actuelle</span>
+              </div>
+
+              <!-- Card 3: Modern'home -->
+              <div class="lifestyle-card" onclick="selectLifestyle(this, 'modern')">
+                <div class="lifestyle-icon">✨</div>
+                <h4 class="lifestyle-title">Design & modernité</h4>
+                <p class="lifestyle-description">Esthétique contemporaine, lignes épurées</p>
+                <a href="https://www.luly-homes.com/template/modernhome" target="_blank" class="lifestyle-btn">Découvrir Modern'home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ÉNERGIE + PLAN + INFOS -->
+        <div class="accordion-section">
+          <div class="accordion-header active" onclick="toggleAccordion(this)">
+            <div class="accordion-title">
+              <span class="accordion-icon">📊</span>
+              <span>Informations de la maison</span>
+            </div>
+            <span class="accordion-toggle">▼</span>
+          </div>
+          <div class="accordion-content active">
+            <!-- ÉNERGIE + PLAN CÔTE À CÔTE -->
+            <div class="energy-plan-section">
             <!-- SECTION ÉNERGIE -->
             <div class="energy-section">
               <h3>Performance énergétique</h3>
@@ -1049,12 +1740,21 @@ body::before {
               </div>
             </div>
           </div>
+          </div>
         </div>
-        
-        <!-- COLONNE DROITE - CONFIGURATION -->
-        <div class="right-column">
-          <!-- GRILLE 3x2 POUR LES CONFIGURATIONS -->
-          <div class="config-grid">
+
+        <!-- PERSONNALISATION (avec accordion) -->
+        <div class="accordion-section">
+          <div class="accordion-header active" onclick="toggleAccordion(this)">
+            <div class="accordion-title">
+              <span class="accordion-icon">🎨</span>
+              <span>Personnalisation de votre maison</span>
+            </div>
+            <span class="accordion-toggle">▼</span>
+          </div>
+          <div class="accordion-content active">
+            <!-- GRILLE 3x2 POUR LES CONFIGURATIONS -->
+            <div class="config-grid">
             <!-- Bardage -->
             <div class="config-group" data-cat="Bardage">
               <h3>Bardage</h3>
@@ -1172,57 +1872,216 @@ body::before {
               </div>
             </div>
           </div>
+          </div>
+        </div>
 
-          <!-- Prix et boutons -->
-          <div class="price-section">
-            <h3>Récapitulatif</h3>
-            <div id="price-breakdown">
-              <div class="price-item">
-                <span>Prix de base</span>
-                <span>139 000 €</span>
+        <!-- Q2: TERRAIN -->
+        <div class="accordion-section">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title">
+              <span class="accordion-icon">📍</span>
+              <span>Avez-vous déjà votre terrain ?</span>
+            </div>
+            <span class="accordion-toggle">▼</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;">💡 Pour vous guider au mieux :</p>
+            <div class="radio-group">
+              <div class="radio-option" onclick="selectRadio(this, 'terrain')">
+                <input type="radio" name="terrain" value="oui" id="terrain-oui">
+                <label for="terrain-oui" class="radio-label">
+                  <strong>Oui, j'ai mon terrain</strong>
+                </label>
               </div>
-              <div class="price-item">
-                <span>Total TTC</span>
-                <span id="total-price-display">139 000 €</span>
+              <div class="conditional-field" id="terrain-oui-field">
+                <input type="text" placeholder="Indiquez la commune" id="commune-actuel">
+              </div>
+
+              <div class="radio-option" onclick="selectRadio(this, 'terrain')">
+                <input type="radio" name="terrain" value="sais-ou" id="terrain-sais-ou">
+                <label for="terrain-sais-ou" class="radio-label">
+                  <strong>Non, mais je sais où construire</strong>
+                </label>
+              </div>
+              <div class="conditional-field" id="terrain-sais-ou-field">
+                <input type="text" placeholder="Indiquez la commune" id="commune-futur">
+              </div>
+
+              <div class="radio-option" onclick="selectRadio(this, 'terrain')">
+                <input type="radio" name="terrain" value="cherche" id="terrain-cherche">
+                <label for="terrain-cherche" class="radio-label">
+                  <strong>Non, je cherche encore</strong>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Q3: TIMELINE -->
+        <div class="accordion-section">
+          <div class="accordion-header" onclick="toggleAccordion(this)">
+            <div class="accordion-title">
+              <span class="accordion-icon">📅</span>
+              <span>Quand souhaitez-vous emménager ?</span>
+            </div>
+            <span class="accordion-toggle">▼</span>
+          </div>
+          <div class="accordion-content">
+            <p style="margin-bottom: 1rem; color: #64748b; font-size: 0.9rem;">📅 Votre timeline idéale :</p>
+            <div class="radio-group">
+              <div class="radio-option" onclick="selectRadio(this, 'timeline')">
+                <input type="radio" name="timeline" value="3-6-mois" id="timeline-rapide">
+                <label for="timeline-rapide" class="radio-label">
+                  <strong>Le plus tôt possible (3-6 mois)</strong>
+                </label>
+              </div>
+
+              <div class="radio-option" onclick="selectRadio(this, 'timeline')">
+                <input type="radio" name="timeline" value="6-12-mois" id="timeline-moyen">
+                <label for="timeline-moyen" class="radio-label">
+                  <strong>D'ici 6-12 mois</strong>
+                </label>
+              </div>
+
+              <div class="radio-option" onclick="selectRadio(this, 'timeline')">
+                <input type="radio" name="timeline" value="plus-1-an" id="timeline-long">
+                <label for="timeline-long" class="radio-label">
+                  <strong>Dans plus d'un an (je prépare mon projet)</strong>
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRIX -->
+        <div class="price-section" style="margin-top: 1.5rem;">
+          <h3>Récapitulatif</h3>
+          <div id="price-breakdown">
+            <div class="price-item">
+              <span>Prix de base</span>
+              <span>139 000 €</span>
+            </div>
+            <div class="price-item">
+              <span>Total TTC</span>
+              <span id="total-price-display">139 000 €</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- SECTION CTA -->
+        <div class="cta-section">
+          <h3 class="cta-title">Souhaitez-vous :</h3>
+          <div class="cta-options">
+            <div class="cta-option" onclick="selectCTA(this, 'calendly')">
+              <input type="radio" name="cta" value="finaliser" id="cta-finaliser">
+              <label for="cta-finaliser" class="cta-label">
+                <strong>Finaliser ce projet tel quel</strong><br>
+                <span style="font-size: 0.8rem; color: #64748b;">Parlez à nos Maître constructeur et obtenez votre devis en 2 minutes</span>
+              </label>
+            </div>
+
+            <div class="cta-option" onclick="selectCTA(this, 'financement')">
+              <input type="radio" name="cta" value="financement" id="cta-financement">
+              <label for="cta-financement" class="cta-label">
+                <strong>Voir les solutions de financement disponibles</strong><br>
+                <span style="font-size: 0.8rem; color: #64748b;">Optimisez votre budget avec notre calculateur</span>
+              </label>
+            </div>
+
+            <div class="cta-option" onclick="selectCTA(this, 'info')">
+              <input type="radio" name="cta" value="info" id="cta-info">
+              <label for="cta-info" class="cta-label">
+                <strong>Recevoir plus d'informations avant de décider</strong><br>
+                <span style="font-size: 0.8rem; color: #64748b;">Remplissez le formulaire et nous vous recontacterons</span>
+              </label>
+            </div>
+          </div>
+
+          <button class="btn-primary" onclick="saveConfiguration()" style="margin-top: 1.5rem;">
+            📄 Télécharger le PDF
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL CALENDLY -->
+  <div class="modal" id="modal-calendly">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Parlez à nos Maître constructeur</h3>
+          <p class="modal-subtitle">Obtenez votre devis en 2 minutes</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-calendly')">×</button>
+      </div>
+      <div class="modal-body" style="padding: 0;">
+        <!-- Widget Calendly -->
+        <div class="calendly-inline-widget calendly-container" data-url="https://calendly.com/lulyhomes/30min?hide_event_type_details=1&hide_gdpr_banner=1"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MODAL INFORMATIONS -->
+  <div class="modal" id="modal-info">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-title">Demande d'informations</h3>
+          <p class="modal-subtitle">Nous vous recontacterons rapidement</p>
+        </div>
+        <button class="modal-close" onclick="closeModal('modal-info')">×</button>
+      </div>
+      <div class="modal-body">
+        <form id="info-form" onsubmit="submitInfoForm(event)">
+          <div class="form-group">
+            <label class="form-label">Nom et prénom *</label>
+            <input type="text" class="form-input" id="info-name" required placeholder="Jean Dupont">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Téléphone *</label>
+            <input type="tel" class="form-input" id="info-phone" required placeholder="06 12 34 56 78">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Email *</label>
+            <input type="email" class="form-input" id="info-email" required placeholder="jean.dupont@email.com">
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Comment pouvons-nous vous aider ?</label>
+            <div class="form-checkbox-group">
+              <div class="form-checkbox">
+                <input type="checkbox" id="help-rdv" name="help" value="rdv">
+                <label for="help-rdv">Je suis prêt, je veux un rendez-vous</label>
+              </div>
+              <div class="form-checkbox">
+                <input type="checkbox" id="help-financement" name="help" value="financement">
+                <label for="help-financement">J'ai des questions sur le financement</label>
+              </div>
+              <div class="form-checkbox">
+                <input type="checkbox" id="help-visite" name="help" value="visite">
+                <label for="help-visite">Je veux visiter une maison témoin</label>
+              </div>
+              <div class="form-checkbox">
+                <input type="checkbox" id="help-recap" name="help" value="recap">
+                <label for="help-recap">J'aimerais juste recevoir le récapitulatif pour l'instant</label>
               </div>
             </div>
           </div>
 
-         
-          <!-- Section Contact + Boutons -->
-<div class="email-section">
-  <div class="contact-input-group">
-    <input 
-      type="text" 
-      id="user-name" 
-      class="contact-input" 
-      placeholder="Votre nom et prénom"
-      required
-    />
-    <input 
-      type="tel" 
-      id="user-phone" 
-      class="contact-input" 
-      placeholder="Votre numéro de téléphone"
-      required
-    />
-    <input 
-      type="email" 
-      id="user-email" 
-      class="contact-input" 
-      placeholder="Votre email pour recevoir le devis"
-      required
-    />
-  </div>
-  <div class="action-buttons">
-    <button class="btn-save" onclick="saveConfiguration()">Enregistrer PDF</button>
-    <button class="btn-quote" id="quote-btn" onclick="requestQuote()">Demander un devis</button>
-  </div>
-</div>
-        </div>
+          <button type="submit" class="btn-primary">
+            Envoyer ma demande
+          </button>
+        </form>
       </div>
     </div>
   </div>
+
+  <!-- Script Calendly -->
+  <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
 
   <script>
    
@@ -1308,7 +2167,252 @@ body::before {
 
     // Variables globales
     let selection = {};
+    let qualificationData = {
+      lifestyle: 'tradihome',
+      terrain: null,
+      commune: null,
+      timeline: null
+    };
     const basePrice = 139000;
+
+    // ========== NOUVELLES FONCTIONS POUR L'INTERFACE ==========
+
+    // Fonction pour toggle les accordéons
+    function toggleAccordion(header) {
+      const content = header.nextElementSibling;
+      const isActive = header.classList.contains('active');
+
+      // Toggle l'état actif
+      header.classList.toggle('active');
+      content.classList.toggle('active');
+    }
+
+    // Fonction pour sélectionner le style de vie
+    function selectLifestyle(card, lifestyle) {
+      // Retirer la sélection de toutes les cards
+      document.querySelectorAll('.lifestyle-card').forEach(c => {
+        c.classList.remove('selected');
+      });
+
+      // Ajouter la sélection à la card cliquée
+      card.classList.add('selected');
+      qualificationData.lifestyle = lifestyle;
+
+      // Mettre à jour le résumé
+      updateSummarySection();
+    }
+
+    // Fonction pour sélectionner les options radio
+    function selectRadio(option, groupName) {
+      const radio = option.querySelector('input[type="radio"]');
+      radio.checked = true;
+
+      // Retirer la classe selected de toutes les options du groupe
+      option.parentElement.querySelectorAll('.radio-option').forEach(opt => {
+        opt.classList.remove('selected');
+      });
+
+      // Ajouter la classe selected à l'option cliquée
+      option.classList.add('selected');
+
+      // Gestion des champs conditionnels
+      if (groupName === 'terrain') {
+        // Masquer tous les champs conditionnels de terrain
+        document.querySelectorAll('[id^="terrain-"][id$="-field"]').forEach(field => {
+          field.classList.remove('visible');
+        });
+
+        // Afficher le champ conditionnel approprié
+        const fieldId = radio.id + '-field';
+        const conditionalField = document.getElementById(fieldId);
+        if (conditionalField) {
+          conditionalField.classList.add('visible');
+        }
+
+        qualificationData.terrain = radio.value;
+      } else if (groupName === 'timeline') {
+        qualificationData.timeline = radio.value;
+      }
+
+      // Mettre à jour le résumé
+      updateSummarySection();
+    }
+
+    // Fonction pour sélectionner un CTA
+    function selectCTA(option, action) {
+      const radio = option.querySelector('input[type="radio"]');
+      radio.checked = true;
+
+      // Actions selon le type de CTA
+      if (action === 'calendly') {
+        openModal('modal-calendly');
+      } else if (action === 'financement') {
+        window.open('https://www.luly-homes.com/landing-page/calculateurvsl', '_blank');
+      } else if (action === 'info') {
+        openModal('modal-info');
+      }
+    }
+
+    // Fonction pour ouvrir un modal
+    function openModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden'; // Empêcher le scroll de la page
+      }
+    }
+
+    // Fonction pour fermer un modal
+    function closeModal(modalId) {
+      const modal = document.getElementById(modalId);
+      if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = ''; // Réactiver le scroll
+      }
+    }
+
+    // Fermer le modal en cliquant sur le backdrop
+    document.addEventListener('click', function(e) {
+      if (e.target.classList.contains('modal')) {
+        closeModal(e.target.id);
+      }
+    });
+
+    // Fonction pour soumettre le formulaire d'informations
+    async function submitInfoForm(event) {
+      event.preventDefault();
+
+      const name = document.getElementById('info-name').value;
+      const phone = document.getElementById('info-phone').value;
+      const email = document.getElementById('info-email').value;
+
+      // Récupérer les checkboxes cochées
+      const helpOptions = [];
+      document.querySelectorAll('input[name="help"]:checked').forEach(checkbox => {
+        helpOptions.push(checkbox.value);
+      });
+
+      // Créer l'objet de données complet
+      const formData = {
+        name,
+        phone,
+        email,
+        helpOptions: helpOptions.join(', '),
+        ...getConfigurationData(),
+        requestType: 'information'
+      };
+
+      // Envoyer via webhook
+      try {
+        const result = await sendQuoteToWebhook(formData);
+
+        if (result.success) {
+          alert(`✅ Votre demande a été envoyée avec succès!\n\nNous vous recontacterons rapidement à l'adresse ${email}.\n\nMerci ${name} pour votre intérêt!`);
+          closeModal('modal-info');
+          document.getElementById('info-form').reset();
+        } else {
+          throw new Error(result.error || 'Erreur inconnue');
+        }
+      } catch (error) {
+        console.error('Erreur lors de l\'envoi:', error);
+        alert(`❌ Erreur lors de l'envoi de votre demande.\n\nVeuillez réessayer ou nous contacter directement.\n\nDétails: ${error.message}`);
+      }
+    }
+
+    // Fonction pour mettre à jour la section résumé
+    function updateSummarySection() {
+      const summaryGrid = document.getElementById('summary-grid');
+      if (!summaryGrid) return;
+
+      let html = '';
+
+      // Style de vie
+      const lifestyleLabels = {
+        'intemporel': 'Intemporel\'home - Vie de famille',
+        'tradihome': 'Tradi\'home - Cocon intimiste',
+        'modern': 'Modern\'home - Design & modernité'
+      };
+      html += `
+        <div class="summary-item">
+          <span class="summary-item-label">🏡 Style de vie</span>
+          <span class="summary-item-value">${lifestyleLabels[qualificationData.lifestyle]}</span>
+        </div>
+      `;
+
+      // Terrain
+      if (qualificationData.terrain) {
+        const terrainLabels = {
+          'oui': 'J\'ai mon terrain',
+          'sais-ou': 'Je sais où construire',
+          'cherche': 'Je cherche encore'
+        };
+        html += `
+          <div class="summary-item">
+            <span class="summary-item-label">📍 Terrain</span>
+            <span class="summary-item-value">${terrainLabels[qualificationData.terrain]}</span>
+          </div>
+        `;
+
+        // Commune si renseignée
+        const commune = document.getElementById('commune-actuel')?.value ||
+                        document.getElementById('commune-futur')?.value;
+        if (commune) {
+          html += `
+            <div class="summary-item">
+              <span class="summary-item-label">📍 Commune</span>
+              <span class="summary-item-value">${commune}</span>
+            </div>
+          `;
+        }
+      }
+
+      // Timeline
+      if (qualificationData.timeline) {
+        const timelineLabels = {
+          '3-6-mois': 'Le plus tôt possible (3-6 mois)',
+          '6-12-mois': 'D\'ici 6-12 mois',
+          'plus-1-an': 'Dans plus d\'un an'
+        };
+        html += `
+          <div class="summary-item">
+            <span class="summary-item-label">📅 Emménagement</span>
+            <span class="summary-item-value">${timelineLabels[qualificationData.timeline]}</span>
+          </div>
+        `;
+      }
+
+      // Personnalisation (depuis la config existante)
+      Object.entries(selection).forEach(([cat, cost]) => {
+        const group = document.querySelector(`.config-group[data-cat="${cat}"]`);
+        if (group) {
+          const selectedSwatch = group.querySelector('.config-swatch.selected');
+          if (selectedSwatch) {
+            const label = selectedSwatch.nextElementSibling?.textContent || '';
+            const costValue = parseInt(selectedSwatch.dataset.cost) || 0;
+            html += `
+              <div class="summary-item">
+                <span class="summary-item-label">🎨 ${cat}</span>
+                <span class="summary-item-value">${label}${costValue > 0 ? ' (+' + costValue.toLocaleString('fr-FR') + '€)' : ''}</span>
+              </div>
+            `;
+          }
+        }
+      });
+
+      // Prix total
+      let totalOptions = 0;
+      Object.values(selection).forEach(cost => {
+        totalOptions += cost;
+      });
+      html += `
+        <div class="summary-item" style="border-top: 2px solid #e2e8f0; padding-top: 0.75rem; margin-top: 0.5rem;">
+          <span class="summary-item-label" style="font-size: 1rem; font-weight: 600;">💰 Total TTC</span>
+          <span class="summary-item-value" style="font-size: 1.1rem; font-weight: 700;">${(basePrice + totalOptions).toLocaleString('fr-FR')} €</span>
+        </div>
+      `;
+
+      summaryGrid.innerHTML = html;
+    }
 
     // 📧 FONCTION POUR ENVOYER LE DEVIS VIA WEBHOOK - CORRIGÉE
     async function sendQuoteToWebhook(quoteData) {
@@ -1378,19 +2482,11 @@ body::before {
       }
     }
 
-    // 📋 FONCTION POUR COLLECTER TOUTES LES DONNÉES DE CONFIGURATION - CORRIGÉE
+    // 📋 FONCTION POUR COLLECTER TOUTES LES DONNÉES DE CONFIGURATION - CORRIGÉE ET ÉTENDUE
     function getConfigurationData() {
-      const emailInput = document.getElementById('user-email');
-      const nameInput = document.getElementById('user-name');
-      const phoneInput = document.getElementById('user-phone');
       const energyValue = document.getElementById('energy-value');
       const energyClass = document.getElementById('energy-class');
       const energyDetails = document.getElementById('energy-details');
-      
-      // Vérifications de sécurité
-      if (!emailInput || !nameInput || !phoneInput) {
-        throw new Error('Éléments de formulaire manquants');
-      }
       
       const selectedOptions = {};
       let totalOptions = 0;
@@ -1420,12 +2516,14 @@ body::before {
         }
       });
 
+      // Récupérer la commune si renseignée
+      const commune = document.getElementById('commune-actuel')?.value ||
+                      document.getElementById('commune-futur')?.value ||
+                      '';
+
       // Structure des données à envoyer vers n8n
       const configData = {
-        // Infos client
-        email: emailInput.value.trim(),
-        name: nameInput.value.trim(),
-        phone: phoneInput.value.trim(),
+        // Timestamp
         timestamp: new Date().toISOString(),
         dateFormatted: new Date().toLocaleDateString('fr-FR', {
           year: 'numeric',
@@ -1434,32 +2532,56 @@ body::before {
           hour: '2-digit',
           minute: '2-digit'
         }),
-        
+
+        // ===== NOUVELLES DONNÉES DE QUALIFICATION =====
+        lifestyle: qualificationData.lifestyle,
+        lifestyleLabel: {
+          'intemporel': 'Intemporel\'home - Vie de famille confortable',
+          'tradihome': 'Tradi\'home - Cocon intimiste',
+          'modern': 'Modern\'home - Design & modernité'
+        }[qualificationData.lifestyle],
+
+        terrain: qualificationData.terrain || 'Non renseigné',
+        terrainLabel: {
+          'oui': 'Oui, j\'ai mon terrain',
+          'sais-ou': 'Non, mais je sais où construire',
+          'cherche': 'Non, je cherche encore'
+        }[qualificationData.terrain] || 'Non renseigné',
+
+        commune: commune || 'Non renseignée',
+
+        timeline: qualificationData.timeline || 'Non renseigné',
+        timelineLabel: {
+          '3-6-mois': 'Le plus tôt possible (3-6 mois)',
+          '6-12-mois': 'D\'ici 6-12 mois',
+          'plus-1-an': 'Dans plus d\'un an'
+        }[qualificationData.timeline] || 'Non renseigné',
+
         // Infos maison
         houseModel: 'Tradi\'home',
         surface: '85 m²',
-        bedrooms: 2,
-        bathrooms: 1,
-        
+        bedrooms: 3,
+        bathrooms: 2,
+
         // Configuration sélectionnée
         configuration: selectedOptions,
-        
+
         // Performance énergétique
         energyConsumption: energyValue ? energyValue.textContent : '45 kWh/an',
         energyClass: energyClass ? energyClass.textContent : 'A+',
         energyDetails: energyDetails ? energyDetails.textContent : 'Configuration de base',
-        
+
         // Tarification
         basePrice: basePrice,
         optionsTotal: totalOptions,
         totalPrice: basePrice + totalOptions,
         totalPriceFormatted: (basePrice + totalOptions).toLocaleString('fr-FR') + ' €',
-        
+
         // Métadonnées
-        source: 'Configurateur Tradi\'home',
+        source: 'Configurateur Tradi\'home V2',
         userAgent: navigator.userAgent,
         url: window.location.href,
-        
+
         // Détail des options (pour Google Sheets)
         bardage: selectedOptions.Bardage?.label || 'Non défini',
         bardagePrix: selectedOptions.Bardage?.cost || 0,
@@ -1476,100 +2598,6 @@ body::before {
       };
 
       return configData;
-    }
-    
-    // 🚀 FONCTION POUR DEMANDER UN DEVIS - CORRIGÉE
-    async function requestQuote() {
-      const emailInput = document.getElementById('user-email');
-      const nameInput = document.getElementById('user-name');
-      const phoneInput = document.getElementById('user-phone');
-      const quoteBtn = document.getElementById('quote-btn');
-      
-      // Vérifier que les éléments existent
-      if (!emailInput || !nameInput || !phoneInput || !quoteBtn) {
-        console.error('Éléments manquants dans le DOM');
-        alert('Erreur: Éléments de formulaire manquants');
-        return;
-      }
-      
-      const email = emailInput.value.trim();
-      const name = nameInput.value.trim();
-      const phone = phoneInput.value.trim();
-
-      // Validation des champs
-      if (!name) {
-        alert('Veuillez saisir votre nom et prénom.');
-        nameInput.focus();
-        return;
-      }
-
-      if (!phone) {
-        alert('Veuillez saisir votre numéro de téléphone.');
-        phoneInput.focus();
-        return;
-      }
-
-      if (!isValidPhone(phone)) {
-        alert('Veuillez saisir un numéro de téléphone valide.');
-        phoneInput.focus();
-        return;
-      }
-
-      if (!email) {
-        alert('Veuillez saisir votre email pour recevoir le devis.');
-        emailInput.focus();
-        return;
-      }
-
-      if (!isValidEmail(email)) {
-        alert('Veuillez saisir un email valide.');
-        emailInput.focus();
-        return;
-      }
-      
-      // Interface utilisateur pendant l'envoi
-      quoteBtn.disabled = true;
-      quoteBtn.classList.add('loading');
-      const originalText = quoteBtn.textContent;
-      quoteBtn.textContent = 'Envoi en cours...';
-      
-      try {
-        console.log('Début de l\'envoi du devis...');
-        
-        // Récupération des données de configuration
-        const configData = getConfigurationData();
-        console.log('Données à envoyer:', configData);
-        
-        // Vérification que les données sont complètes
-        if (!configData.email || !configData.name) {
-          throw new Error('Données de configuration incomplètes');
-        }
-        
-        // Envoi vers n8n
-        const result = await sendQuoteToWebhook(configData);
-        
-        if (result.success) {
-          console.log('Devis envoyé avec succès!');
-          alert(`✅ Devis envoyé avec succès à ${email}!\n\nVous recevrez votre devis personnalisé sous 24 à 48h.\n\nMerci ${name} pour votre intérêt pour nos maisons Tradi'home!`);
-
-          // Vider tous les champs après envoi réussi
-          nameInput.value = '';
-          phoneInput.value = '';
-          emailInput.value = '';
-          
-        } else {
-          throw new Error(result.error || 'Erreur inconnue lors de l\'envoi');
-        }
-        
-      } catch (error) {
-        console.error('Erreur lors de l\'envoi du devis:', error);
-        alert(`❌ Erreur lors de l'envoi du devis.\n\nVeuillez réessayer dans quelques instants.\n\nSi le problème persiste, contactez-nous directement.\n\nDétails: ${error.message}`);
-      } finally {
-        // Restauration de l'interface
-        quoteBtn.disabled = false;
-        quoteBtn.classList.remove('loading');
-        quoteBtn.textContent = originalText;
-      }
     }
 
     // Fonction de validation email
@@ -1725,7 +2753,27 @@ body::before {
         }
       }, 5000);
 
-      // Gestion du prix fixe au scroll
+      // Gestion du scroll du panneau droit pour afficher le résumé
+      const rightPanel = document.querySelector('.right-panel');
+      const summarySection = document.getElementById('summary-section');
+
+      if (rightPanel && summarySection) {
+        rightPanel.addEventListener('scroll', () => {
+          // Calculer si on est proche de la fin du scroll
+          const scrollHeight = rightPanel.scrollHeight;
+          const scrollTop = rightPanel.scrollTop;
+          const clientHeight = rightPanel.clientHeight;
+
+          // Afficher le résumé quand on a scrollé 60% du contenu
+          if (scrollTop + clientHeight > scrollHeight * 0.6) {
+            summarySection.classList.add('visible');
+          } else {
+            summarySection.classList.remove('visible');
+          }
+        });
+      }
+
+      // Gestion du prix fixe au scroll (conservé pour compatibilité mobile)
       window.addEventListener('scroll', () => {
         if (window.scrollY > 100) {
           fixedPrice.classList.add('visible');
@@ -1733,6 +2781,21 @@ body::before {
           fixedPrice.classList.remove('visible');
         }
       });
+
+      // Initialiser le résumé avec les données par défaut
+      updateSummarySection();
+
+      // Event listeners pour les champs de commune
+      const communeActuel = document.getElementById('commune-actuel');
+      const communeFutur = document.getElementById('commune-futur');
+
+      if (communeActuel) {
+        communeActuel.addEventListener('input', updateSummarySection);
+      }
+
+      if (communeFutur) {
+        communeFutur.addEventListener('input', updateSummarySection);
+      }
 
       // Mise à jour de la performance énergétique
       function updateEnergy() {
@@ -1787,7 +2850,7 @@ body::before {
       function updatePriceBreakdown() {
         let totalOptions = 0;
         const items = [`<div class="price-item"><span>Prix de base</span><span>${basePrice.toLocaleString('fr-FR')} €</span></div>`];
-        
+
         Object.entries(selection).forEach(([cat]) => {
           const sw = document.querySelector(`.config-group[data-cat="${cat}"] .config-swatch.selected`);
           if(!sw) return;
@@ -1814,11 +2877,14 @@ body::before {
         // Mise à jour de l'affichage des prix
         const breakdownEl = document.getElementById('price-breakdown');
         if (breakdownEl) breakdownEl.innerHTML = items.join('');
-        
+
         const totalPrice = `${(basePrice + totalOptions).toLocaleString('fr-FR')} €`;
         if (fixedPriceEl) fixedPriceEl.textContent = totalPrice;
         if (totalEl) totalEl.textContent = totalPrice;
         if (totalDisplayEl) totalDisplayEl.textContent = totalPrice;
+
+        // Mettre à jour le résumé aussi
+        updateSummarySection();
       }
 
       // Configuration des gestionnaires d'événements pour les échantillons
