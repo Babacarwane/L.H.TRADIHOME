@@ -1,0 +1,112 @@
+<!--
+========================================
+CONFIGURATEUR TRADI'HOME - VERSION WEBFLOW
+========================================
+
+Instructions d'intégration :
+
+1. Hébergez d'abord ces fichiers et obtenez leurs URLs publiques :
+   - TRADIHOME74.glb (modèle 3D)
+   - PLAN.png (plan schématique)
+
+2. Remplacez les URLs ci-dessous :
+   - Ligne 25 : src="VOTRE_URL_DU_MODELE_3D.glb"
+   - Ligne 146 : src="VOTRE_URL_DU_PLAN.png"
+
+3. Copiez TOUT ce fichier
+4. Collez-le dans un élément "Embed" (Custom Code) dans Webflow
+5. Publiez votre site !
+
+⚠️ IMPORTANT : Ce code doit être dans un Embed en mode HTML
+========================================
+-->
+
+<!-- Chargement des bibliothèques externes -->
+<script type="module" src="https://unpkg.com/@google/model-viewer@1.12.0/dist/model-viewer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js" async></script>
+
+<!-- Style du configurateur (intégré) -->
+<style>
+  /* Container principal pour isolation */
+  #tradihome-configurator-container {
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+  }
+
+  /* Réinitialisation CSS pour éviter les conflits avec Webflow */
+  #tradihome-configurator-container * {
+    box-sizing: border-box;
+  }
+
+  /* Copiez ICI tout le CSS depuis index.html entre les balises <style> */
+  /* Pour gagner du temps, je vais créer un fichier séparé */
+</style>
+
+<!-- HTML du configurateur -->
+<div id="tradihome-configurator-container">
+  <div class="fixed-price" id="fixed-price">
+    <span class="fixed-price-label">Prix TTC</span>
+    <span class="fixed-price-amount" id="fixed-price-amount">139 000 €</span>
+  </div>
+
+  <div id="configurator">
+    <!-- PANNEAU GAUCHE - 3D FIXE + RÉSUMÉ -->
+    <div class="left-panel">
+      <!-- TOP SECTION - MODÈLE 3D -->
+      <div class="top-section">
+        <div class="viewer-card">
+          <model-viewer
+            id="mv"
+            src="VOTRE_URL_DU_MODELE_3D.glb"
+            alt="Maison Tradi'home"
+            camera-orbit="15deg 75deg 12m"
+            field-of-view="45deg"
+            exposure="0.8"
+            shadow-intensity="2.5"
+            shadow-softness="1"
+            camera-controls
+            min-camera-orbit="-Infinity 0deg 8m"
+            max-camera-orbit="Infinity 90deg 20m"
+            camera-target="0m 1m 0m"
+            interaction-prompt="none">
+          </model-viewer>
+          <!-- Flèches d'indication -->
+          <div class="rotation-indicators">
+            <div class="rotation-hint">
+              <div class="rotation-arrows">
+                <div class="rotation-arrow">◀</div>
+                <div class="rotation-arrow">▶</div>
+              </div>
+              <span>Faites glisser pour faire tourner</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SECTION RÉSUMÉ (s'affiche au scroll) -->
+      <div class="summary-section" id="summary-section">
+        <h3 class="summary-title">Votre configuration</h3>
+        <div class="summary-grid" id="summary-grid">
+          <!-- Sera rempli dynamiquement -->
+        </div>
+      </div>
+    </div>
+
+    <!-- PANNEAU DROIT - OPTIONS SCROLLABLES -->
+    <div class="right-panel">
+      <!-- Le reste du HTML ici -->
+      <!-- Pour voir le HTML complet, référez-vous à index.html -->
+    </div>
+  </div>
+
+  <!-- MODALS -->
+  <!-- Modal Calendly, Modal Info, etc. -->
+</div>
+
+<!-- JavaScript du configurateur -->
+<script>
+  // Tout le JavaScript depuis index.html
+  // Entre les balises <script>
+</script>
