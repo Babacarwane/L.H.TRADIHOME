@@ -6,6 +6,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Configuration Tradi'home</title>
+
+  <!-- Calendly CSS pour PopupWidget -->
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
   <script type="module" src="https://unpkg.com/@google/model-viewer@1.12.0/dist/model-viewer.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -20,11 +24,6 @@ html {
 body {
   margin-top: 0 !important;
   padding-top: 0 !important;
-}
-
-/* Forcer le positionnement */
-* {
-  position: relative !important;
 }
 
 /* Masquer les éléments système */
@@ -880,7 +879,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       right: 0;
       bottom: 0;
       background: rgba(26, 26, 26, 0.75);
-      z-index: 2000;
+      z-index: 999999;
       align-items: center;
       justify-content: center;
       backdrop-filter: blur(8px);
@@ -2531,15 +2530,26 @@ body::before {
       }
     }
 
-    // Fonction pour ouvrir un modal - VERSION AMÉLIORÉE
+    // Fonction pour ouvrir un modal - VERSION AMÉLIORÉE IFRAME
     function openModal(modalId) {
       console.log('openModal appelé pour:', modalId);
+
+      // Si c'est le modal Calendly, utiliser le PopupWidget au lieu du modal custom
+      if (modalId === 'modal-calendly') {
+        openCalendlyPopup();
+        return;
+      }
+
       const modal = document.getElementById(modalId);
       if (modal) {
         console.log('Modal trouvé, ajout de la classe active');
         modal.classList.add('active');
         modal.style.display = 'flex'; // Force l'affichage
         document.body.style.overflow = 'hidden';
+
+        // Force le modal au-dessus de tout (pour iframe)
+        modal.style.position = 'fixed';
+        modal.style.zIndex = '999999';
       } else {
         console.error('Modal non trouvé:', modalId);
       }
@@ -2550,7 +2560,23 @@ body::before {
       const modal = document.getElementById(modalId);
       if (modal) {
         modal.classList.remove('active');
+        modal.style.display = 'none';
         document.body.style.overflow = ''; // Réactiver le scroll
+      }
+    }
+
+    // Fonction pour ouvrir Calendly avec PopupWidget (fonctionne dans iframe)
+    function openCalendlyPopup() {
+      console.log('Ouverture Calendly PopupWidget');
+
+      // Vérifier si Calendly est chargé
+      if (typeof Calendly !== 'undefined') {
+        Calendly.initPopupWidget({
+          url: 'https://calendly.com/lulyhomes/30min?hide_event_type_details=1&hide_gdpr_banner=1'
+        });
+      } else {
+        console.error('Calendly non chargé, ouverture dans nouvel onglet');
+        window.open('https://calendly.com/lulyhomes/30min', '_blank');
       }
     }
 
@@ -2567,8 +2593,8 @@ body::before {
         });
       }
 
-      // Ouvrir le modal Calendly
-      openModal('modal-calendly');
+      // Ouvrir Calendly avec PopupWidget
+      openCalendlyPopup();
     }
 
     // Fonction pour soumettre le formulaire de téléchargement (modal)
