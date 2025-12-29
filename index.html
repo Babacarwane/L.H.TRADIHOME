@@ -1368,19 +1368,51 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
         padding: 0.6rem 1.2rem;
       }
 
+      /* Section CTA mobile - pleine largeur et bien espacée */
+      .cta-section {
+        padding: 1.5rem 1rem 2rem 1rem !important;
+        margin-top: 1.5rem;
+      }
+
+      .cta-title {
+        font-size: 1.1rem;
+        margin-bottom: 1.25rem;
+        text-align: left;
+      }
+
       /* CTA Options en colonne sur mobile - UNE PAR LIGNE */
       .cta-options {
-        grid-template-columns: 1fr !important;
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
         gap: 1rem;
+        width: 100%;
       }
 
       .cta-card {
-        padding: 1.25rem;
+        width: 100%;
+        padding: 1.5rem;
+        box-sizing: border-box;
+      }
+
+      .cta-card-header {
+        margin-bottom: 1rem;
+      }
+
+      .cta-card-icon {
+        width: 28px;
+        height: 28px;
+      }
+
+      .cta-card-title {
+        font-size: 1rem;
       }
 
       .cta-card-description {
         min-height: auto;
-        margin-bottom: 1rem;
+        margin-bottom: 1.25rem;
+        font-size: 0.875rem;
+        line-height: 1.5;
       }
 
       .cta-card-text {
@@ -1388,14 +1420,50 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
         margin-bottom: 1rem;
       }
 
-      /* Formulaire download en colonne sur mobile */
-      .form-row {
-        grid-template-columns: 1fr !important;
-        gap: 0.75rem;
+      .cta-card-btn {
+        padding: 0.875rem 1rem;
+        font-size: 0.9rem;
       }
 
+      /* Formulaire download en colonne sur mobile */
       .download-form-inline {
         padding: 1.5rem;
+        margin-top: 1.5rem;
+      }
+
+      .download-form-title {
+        font-size: 0.95rem;
+        margin-bottom: 1.25rem;
+      }
+
+      .form-row {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        gap: 1rem;
+      }
+
+      .form-group {
+        width: 100%;
+      }
+
+      .form-label {
+        font-size: 0.875rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .form-input {
+        width: 100%;
+        padding: 0.875rem;
+        font-size: 0.9rem;
+        box-sizing: border-box;
+      }
+
+      .btn-primary {
+        width: 100%;
+        padding: 1rem;
+        font-size: 0.95rem;
+        margin-top: 0.5rem;
       }
 
       /* Modal adapté mobile */
@@ -1456,22 +1524,72 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
         order: 2;
       }
       
+      .config-header {
+        padding: 1.5rem 1rem;
+        text-align: center;
+        border-bottom: 1px solid #e5e7eb;
+      }
+
       .config-header h2 {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+      }
+
+      .config-header .current-price {
+        font-size: 1.6rem;
+        margin-bottom: 0;
+        font-weight: 700;
+      }
+      
+      /* Forcer le layout mobile en colonne unique */
+      .config-content {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        gap: 0.75rem;
+        padding: 1rem;
+      }
+
+      /* Accordéons en pleine largeur sur mobile */
+      .accordion-section {
+        width: 100%;
         margin-bottom: 0.5rem;
       }
-      
-      .config-header .current-price {
-        font-size: 1.4rem;
-        margin-bottom: 1rem;
+
+      .accordion-header {
+        padding: 1rem;
       }
-      
-      .config-content {
-        display: grid;
-        grid-template-columns: 1fr 1.2fr;
-        gap: 0.75rem;
+
+      .accordion-title {
+        font-size: 0.9rem;
       }
-      
+
+      .accordion-content {
+        padding: 0 1rem 1rem 1rem;
+      }
+
+      /* Récapitulatif : placer en dernier et pleine largeur */
+      .price-section {
+        order: 999;
+        width: 100%;
+        margin-top: 1rem;
+        padding: 1rem;
+      }
+
+      .price-section h3 {
+        font-size: 1rem;
+        margin-bottom: 0.75rem;
+      }
+
+      #price-breakdown {
+        font-size: 0.85rem;
+      }
+
+      .price-item {
+        padding: 0.5rem 0;
+      }
+
       /* ÉNERGIE + PLAN EN COLONNE SUR MOBILE */
       .energy-plan-section {
         grid-template-columns: 1fr;
@@ -1621,23 +1739,8 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
         line-height: 1;
       }
       
-      /* PRIX MOBILE */
-      .price-section {
-        padding: 0.5rem;
-        margin-top: 0.3rem;
-      }
-      
-      .price-section h3 {
-        font-size: 0.7rem;
-        margin-bottom: 0.4rem;
-      }
-      
-      .price-item {
-        font-size: 0.6rem;
-        margin-bottom: 0.15rem;
-        padding: 0.15rem 0;
-      }
-      
+      /* PRIX MOBILE - déjà défini plus haut */
+
       .price-item:last-child {
         font-size: 0.65rem;
         margin-top: 0.2rem;
