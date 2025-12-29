@@ -740,7 +740,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
     /* SECTION CTA REFONTE - 2 OPTIONS */
     .cta-section {
       margin-top: 2rem;
-      padding: 0;
+      padding: 0 0 3rem 0;
       background: transparent;
       border-radius: 0;
       border: none;
@@ -774,6 +774,35 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     }
 
+    .cta-card-header {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-card-icon {
+      width: 32px;
+      height: 32px;
+      color: #1a1a1a;
+    }
+
+    .cta-card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0;
+    }
+
+    .cta-card-description {
+      font-size: 0.85rem;
+      color: #6b7280;
+      line-height: 1.5;
+      margin-bottom: 1.25rem;
+      min-height: 60px;
+    }
+
     .cta-card-text {
       font-size: 0.85rem;
       color: #6b7280;
@@ -804,6 +833,42 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       background: #404040;
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Formulaire de téléchargement inline */
+    .download-form-inline {
+      margin-top: 2rem;
+      padding: 2rem;
+      background: #f9fafb;
+      border: 1px solid #e5e7eb;
+      border-radius: 8px;
+      animation: slideDown 0.3s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .download-form-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
     }
 
     /* MODALS / POP-UPS - DESIGN PREMIUM */
@@ -1304,7 +1369,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
         padding: 0.6rem 1.2rem;
       }
 
-      /* CTA Options en colonne sur mobile */
+      /* CTA Options en colonne sur mobile - UNE PAR LIGNE */
       .cta-options {
         grid-template-columns: 1fr !important;
         gap: 1rem;
@@ -1314,9 +1379,24 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
         padding: 1.25rem;
       }
 
+      .cta-card-description {
+        min-height: auto;
+        margin-bottom: 1rem;
+      }
+
       .cta-card-text {
         min-height: auto;
         margin-bottom: 1rem;
+      }
+
+      /* Formulaire download en colonne sur mobile */
+      .form-row {
+        grid-template-columns: 1fr !important;
+        gap: 0.75rem;
+      }
+
+      .download-form-inline {
+        padding: 1.5rem;
       }
 
       /* Modal adapté mobile */
@@ -2084,7 +2164,7 @@ body::before {
           <h3 class="cta-title">Prochaine étape :</h3>
           <div class="cta-options">
             <!-- Option 1: Parler avec un conseiller -->
-            <div class="cta-card" onclick="openModal('modal-calendly')">
+            <div class="cta-card">
               <div class="cta-card-header">
                 <svg class="cta-card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
@@ -2097,11 +2177,11 @@ body::before {
               <p class="cta-card-description">
                 Échangez avec un conseiller pour clarifier vos choix, optimiser votre budget et structurer votre projet.
               </p>
-              <button class="cta-card-btn">Prendre rendez-vous</button>
+              <button class="cta-card-btn" onclick="openModal('modal-calendly')">Prendre rendez-vous</button>
             </div>
 
             <!-- Option 2: Télécharger la configuration -->
-            <div class="cta-card" onclick="openModal('modal-download')">
+            <div class="cta-card">
               <div class="cta-card-header">
                 <svg class="cta-card-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -2113,8 +2193,35 @@ body::before {
               <p class="cta-card-description">
                 Téléchargez votre configuration pour la consulter, la comparer ou la partager.
               </p>
-              <button class="cta-card-btn">Télécharger</button>
+              <button class="cta-card-btn" onclick="toggleDownloadForm()">Télécharger</button>
             </div>
+          </div>
+
+          <!-- Formulaire de téléchargement (caché par défaut) -->
+          <div id="download-form-section" class="download-form-inline" style="display: none;">
+            <h4 class="download-form-title">Recevez votre configuration par email</h4>
+            <form id="download-form-inline" onsubmit="submitDownloadFormInline(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label">Prénom *</label>
+                  <input type="text" class="form-input" id="download-prenom-inline" required placeholder="Jean">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Nom *</label>
+                  <input type="text" class="form-input" id="download-nom-inline" required placeholder="Dupont">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Email *</label>
+                  <input type="email" class="form-input" id="download-email-inline" required placeholder="jean.dupont@email.com">
+                </div>
+              </div>
+
+              <button type="submit" class="btn-primary">
+                Télécharger ma configuration
+              </button>
+            </form>
           </div>
         </div>
 
@@ -2464,7 +2571,7 @@ body::before {
       openModal('modal-calendly');
     }
 
-    // Fonction pour soumettre le formulaire de téléchargement
+    // Fonction pour soumettre le formulaire de téléchargement (modal)
     async function submitDownloadForm(event) {
       event.preventDefault();
 
@@ -2503,6 +2610,66 @@ body::before {
 
           // Réinitialiser le formulaire
           document.getElementById('download-form').reset();
+        } else {
+          throw new Error('Erreur lors de l\'envoi');
+        }
+      } catch (error) {
+        console.error('Erreur:', error);
+        alert('❌ Une erreur est survenue. Veuillez réessayer.');
+      }
+    }
+
+    // Fonction pour afficher/masquer le formulaire de téléchargement inline
+    function toggleDownloadForm() {
+      const formSection = document.getElementById('download-form-section');
+      if (formSection.style.display === 'none' || formSection.style.display === '') {
+        formSection.style.display = 'block';
+        // Scroll vers le formulaire
+        setTimeout(() => {
+          formSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }, 100);
+      } else {
+        formSection.style.display = 'none';
+      }
+    }
+
+    // Fonction pour soumettre le formulaire de téléchargement inline
+    async function submitDownloadFormInline(event) {
+      event.preventDefault();
+
+      const prenom = document.getElementById('download-prenom-inline').value;
+      const nom = document.getElementById('download-nom-inline').value;
+      const email = document.getElementById('download-email-inline').value;
+
+      // Créer l'objet de données complet
+      const formData = {
+        prenom,
+        nom,
+        email,
+        ...getConfigurationData(),
+        requestType: 'download'
+      };
+
+      try {
+        // Envoyer vers Make.com webhook
+        const response = await fetch('https://hook.eu1.make.com/jcibjkv691xvm739pfp5gbyf2n1m56kh', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        if (response.ok) {
+          // Générer le PDF
+          saveConfiguration();
+
+          // Message de confirmation
+          alert('✅ Configuration envoyée ! Le PDF va se télécharger.');
+
+          // Réinitialiser et masquer le formulaire
+          document.getElementById('download-form-inline').reset();
+          document.getElementById('download-form-section').style.display = 'none';
         } else {
           throw new Error('Erreur lors de l\'envoi');
         }
