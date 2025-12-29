@@ -321,13 +321,13 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
     .accordion-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.4s ease;
-      padding: 0 1.5rem;
+      transition: max-height 0.4s ease, padding 0.4s ease;
+      padding: 0;  /* Pas de padding quand fermé */
     }
 
     .accordion-content.active {
       max-height: 2000px;
-      padding: 1.5rem;
+      padding: 1.5rem;  /* Padding seulement quand ouvert */
     }
 
     /* CARDS STYLE DE VIE - DESIGN PREMIUM PORSCHE */
@@ -1370,6 +1370,7 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
 
       /* Section CTA mobile - pleine largeur et bien espacée */
       .cta-section {
+        order: 20;  /* Après le récapitulatif (order: 10) */
         padding: 1.5rem 1rem 2rem 1rem !important;
         margin-top: 1.5rem;
       }
@@ -1566,12 +1567,16 @@ body > *:first-child:not(.fixed-price):not(#configurator) {
       }
 
       .accordion-content {
-        padding: 0 1rem 1rem 1rem;
+        padding: 0 !important;  /* Pas de padding quand fermé */
       }
 
-      /* Récapitulatif : placer en dernier et pleine largeur */
+      .accordion-content.active {
+        padding: 0 1rem 1rem 1rem !important;  /* Padding seulement quand ouvert */
+      }
+
+      /* Récapitulatif : placer AVANT la section CTA */
       .price-section {
-        order: 999;
+        order: 10;  /* Après les accordéons (1-5) mais avant CTA (20) */
         width: 100%;
         margin-top: 1rem;
         padding: 1rem;
