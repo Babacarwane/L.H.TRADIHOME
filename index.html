@@ -1826,8 +1826,60 @@ body::before {
             min-camera-orbit="-Infinity 0deg 8m"
             max-camera-orbit="Infinity 90deg 20m"
             camera-target="0m 1m 0m"
-            interaction-prompt="none">
+            interaction-prompt="none"
+            
+            <!-- NOUVEAUX ATTRIBUTS CRITIQUES MOBILE -->
+            loading="eager"
+            reveal="auto"
+            touch-action="pan-y"
+            
+            <!-- PERFORMANCE & STABILITÉ -->
+            disable-tap
+            interpolation-decay="200"
+            
+            <!-- RÉALITÉ AUGMENTÉE (BONUS) -->
+            ar
+            ar-modes="webxr scene-viewer quick-look"
+            ar-scale="fixed"
+            
+            <!-- IOS SAFARI FIX -->
+            ios-src="./TRADIHOME74.glb"
+          >
+            <!-- Message de chargement personnalisé -->
+            <div class="loading-indicator" slot="poster">
+              <div style="text-align: center; padding: 40px;">
+                <div style="width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #ff6b35; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                <p style="color: #666; font-size: 16px;">Chargement du modèle 3D...</p>
+              </div>
+            </div>
+            
+            <!-- Fallback si WebGL non supporté -->
+            <div slot="fallback">
+              <p style="text-align: center; padding: 40px; color: #d32f2f;">
+                ❌ Votre navigateur ne supporte pas la 3D.<br>
+                Essayez Chrome, Safari ou Firefox.
+              </p>
+            </div>
           </model-viewer>
+          
+          <style>
+          @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+          }
+          
+          /* Style du viewer */
+          #mv {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+          }
+          
+          /* Loading indicator disparaît après chargement */
+          #mv[loaded] .loading-indicator {
+            display: none;
+          }
+          </style>
           <!-- Flèches d'indication -->
           <div class="rotation-indicators">
             <div class="rotation-hint">
