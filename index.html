@@ -2639,13 +2639,18 @@ body::before {
     function trackConversion(conversionType, value, extraData = {}) {
       console.log('📊 Tracking conversion:', conversionType, value + '€', extraData);
 
-      // 1. GOOGLE ADS - Conversion avec valeur
+      // 1. GOOGLE ADS - Conversion avec VRAIS labels générés par Google
       if (typeof gtag !== 'undefined') {
+        // Labels de conversion Google Ads (générés automatiquement)
+        const conversionLabels = {
+          'pdf_download': 'dwmhCJ2fi_IbEOfm3ahC',      // Téléchargement PDF Configurateur
+          'calendly_booking': 'B74ICJaQjPIbEOfm3ahC'   // Prise RDV Calendly Configurateur
+        };
+
         gtag('event', 'conversion', {
-          'send_to': 'AW-17802163047/' + (conversionType === 'pdf_download' ? 'PDF-DOWNLOAD' : 'CALENDLY-RDV'),
+          'send_to': 'AW-17802163047/' + conversionLabels[conversionType],
           'value': value,
-          'currency': 'EUR',
-          'transaction_id': Date.now().toString()
+          'currency': 'EUR'
         });
 
         // 2. GOOGLE ANALYTICS 4 - Événement personnalisé
