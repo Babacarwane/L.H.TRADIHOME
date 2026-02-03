@@ -3524,5 +3524,42 @@ body::before {
       });
     });
   </script>
+  <script>
+// Détection WebGL et debug mobile
+(function() {
+  const canvas = document.createElement('canvas');
+  const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+  
+  if (!gl) {
+    console.error('❌ WebGL non supporté sur cet appareil');
+    
+    // Affiche un message d'erreur à l'utilisateur
+    const modelViewer = document.getElementById('mv');
+    if (modelViewer) {
+      const errorMsg = document.createElement('div');
+      errorMsg.style.cssText = 'position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: rgba(255,255,255,0.95); z-index: 1000;';
+      errorMsg.innerHTML = `
+        <div style="text-align: center; padding: 40px; max-width: 400px;">
+          <p style="font-size: 18px; color: #d32f2f; margin-bottom: 20px;">
+            ⚠️ Votre navigateur ne supporte pas la 3D
+          </p>
+          <p style="font-size: 14px; color: #666; margin-bottom: 20px;">
+            Utilisez Chrome, Safari ou Firefox pour voir le modèle 3D.
+          </p>
+          <button onclick="window.location.href='tel:+590590XXXXXX'" style="background: #ff6b35; color: white; border: none; padding: 12px 24px; border-radius: 8px; cursor: pointer; font-size: 16px;">
+            Appeler pour assistance
+          </button>
+        </div>
+      `;
+      modelViewer.parentElement.style.position = 'relative';
+      modelViewer.parentElement.appendChild(errorMsg);
+    }
+  } else {
+    console.log('✅ WebGL supporté');
+    console.log('📱 User Agent:', navigator.userAgent);
+    console.log('🖥️ Screen:', window.innerWidth + 'x' + window.innerHeight);
+  }
+})();
+</script>
 </body>
 </html>
