@@ -7,6 +7,46 @@
   <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
   <title>Configuration Tradi'home</title>
 
+  <!-- Google Tag (gtag.js) - Google Ads + GA4 -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=GT-WPL2H37J"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // Google Tag
+    gtag('config', 'GT-WPL2H37J');
+
+    // Google Ads
+    gtag('config', 'AW-17802163047');
+
+    // Google Analytics 4
+    gtag('config', 'G-864MHX1HKR', {
+      'send_page_view': true,
+      'page_title': 'Configurateur Tradi\'home',
+      'page_location': window.location.href
+    });
+  </script>
+
+  <!-- Meta Pixel Code -->
+  <script>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1875020966472884');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+    src="https://www.facebook.com/tr?id=1875020966472884&ev=PageView&noscript=1"/>
+  </noscript>
+  <!-- End Meta Pixel Code -->
+
   <!-- Calendly CSS pour PopupWidget -->
   <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
 
@@ -2588,6 +2628,54 @@ body::before {
     };
     const basePrice = 139000;
 
+    // ========== FONCTION DE TRACKING CENTRALISÉE ==========
+
+    /**
+     * Fonction de tracking pour Google Ads, GA4 et Meta Pixel
+     * @param {string} conversionType - 'pdf_download' ou 'calendly_booking'
+     * @param {number} value - Valeur de la conversion en euros
+     * @param {object} extraData - Données additionnelles (optionnel)
+     */
+    function trackConversion(conversionType, value, extraData = {}) {
+      console.log('📊 Tracking conversion:', conversionType, value + '€', extraData);
+
+      // 1. GOOGLE ADS - Conversion avec valeur
+      if (typeof gtag !== 'undefined') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17802163047/' + (conversionType === 'pdf_download' ? 'PDF-DOWNLOAD' : 'CALENDLY-RDV'),
+          'value': value,
+          'currency': 'EUR',
+          'transaction_id': Date.now().toString()
+        });
+
+        // 2. GOOGLE ANALYTICS 4 - Événement personnalisé
+        gtag('event', conversionType, {
+          'event_category': 'Conversion',
+          'event_label': conversionType === 'pdf_download' ? 'Téléchargement PDF' : 'Prise RDV Calendly',
+          'value': value,
+          'currency': 'EUR',
+          ...extraData
+        });
+
+        console.log('✅ Google Ads + GA4 tracked');
+      } else {
+        console.warn('⚠️ gtag not loaded');
+      }
+
+      // 3. META PIXEL - Lead event
+      if (typeof fbq !== 'undefined') {
+        fbq('track', 'Lead', {
+          content_name: conversionType === 'pdf_download' ? 'PDF Configuration Tradihome' : 'RDV Calendly Tradihome',
+          content_category: 'Configurateur',
+          value: value,
+          currency: 'EUR'
+        });
+        console.log('✅ Meta Pixel tracked');
+      } else {
+        console.warn('⚠️ fbq not loaded');
+      }
+    }
+
     // ========== NOUVELLES FONCTIONS POUR L'INTERFACE ==========
 
     // Fonction pour toggle les accordéons
@@ -2725,6 +2813,12 @@ body::before {
     function openCalendlyPopup() {
       console.log('Ouverture Calendly PopupWidget');
 
+      // 📊 TRACKING - Conversion prise RDV Calendly
+      trackConversion('calendly_booking', 75, {
+        'method': 'popup_general',
+        'source': 'cta_section'
+      });
+
       // Vérifier si Calendly est chargé
       if (typeof Calendly !== 'undefined') {
         Calendly.initPopupWidget({
@@ -2738,19 +2832,21 @@ body::before {
 
     // Fonction pour ouvrir Calendly depuis le CTA terrain
     function openCalendlyFromTerrain() {
-      // Tracking Google Ads - RDV depuis configurateur (terrain)
-      if (typeof gtag !== 'undefined') {
-        gtag('event', 'conversion', {
-          'send_to': 'AW-16712551732/RDV',
-          'value': 75.0,
-          'currency': 'EUR',
-          'event_category': 'Configurateur',
-          'event_label': 'RDV - Recherche Terrain'
-        });
-      }
+      // 📊 TRACKING - Conversion prise RDV Calendly (depuis terrain)
+      trackConversion('calendly_booking', 75, {
+        'method': 'popup_terrain',
+        'source': 'terrain_cta',
+        'terrain_status': qualificationData.terrain || 'cherche'
+      });
 
-      // Ouvrir Calendly avec PopupWidget
-      openCalendlyPopup();
+      // Ouvrir Calendly - Utilisation directe pour éviter double tracking
+      if (typeof Calendly !== 'undefined') {
+        Calendly.initPopupWidget({
+          url: 'https://calendly.com/lulyhomes/30min?hide_event_type_details=1&hide_gdpr_banner=1'
+        });
+      } else {
+        window.open('https://calendly.com/lulyhomes/30min', '_blank');
+      }
     }
 
     // Fonction pour soumettre le formulaire de téléchargement (modal)
@@ -2781,6 +2877,14 @@ body::before {
         });
 
         if (response.ok) {
+          // 📊 TRACKING - Conversion téléchargement PDF
+          trackConversion('pdf_download', 25, {
+            'method': 'modal_form',
+            'prenom': prenom,
+            'nom': nom,
+            'email': email
+          });
+
           // Fermer le modal
           closeModal('modal-download');
 
@@ -2843,6 +2947,14 @@ body::before {
         });
 
         if (response.ok) {
+          // 📊 TRACKING - Conversion téléchargement PDF
+          trackConversion('pdf_download', 25, {
+            'method': 'inline_form',
+            'prenom': prenom,
+            'nom': nom,
+            'email': email
+          });
+
           // Générer le PDF
           saveConfiguration();
 
