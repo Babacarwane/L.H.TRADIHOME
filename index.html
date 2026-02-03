@@ -2637,7 +2637,11 @@ body::before {
      * @param {object} extraData - Données additionnelles (optionnel)
      */
     function trackConversion(conversionType, value, extraData = {}) {
-      console.log('📊 Tracking conversion:', conversionType, value + '€', extraData);
+      console.log('📊 =================================');
+      console.log('📊 TRACKING CONVERSION:', conversionType);
+      console.log('📊 Valeur:', value + '€');
+      console.log('📊 Extra data:', extraData);
+      console.log('📊 =================================');
 
       // 1. GOOGLE ADS - Conversion avec VRAIS labels générés par Google
       if (typeof gtag !== 'undefined') {
@@ -2647,38 +2651,56 @@ body::before {
           'calendly_booking': 'B74ICJaQjPIbEOfm3ahC'   // Prise RDV Calendly Configurateur
         };
 
-        gtag('event', 'conversion', {
+        const adsPayload = {
           'send_to': 'AW-17802163047/' + conversionLabels[conversionType],
           'value': value,
           'currency': 'EUR'
-        });
+        };
 
-        // 2. GOOGLE ANALYTICS 4 - Événement personnalisé
-        gtag('event', conversionType, {
+        console.log('🎯 Google Ads - Envoi conversion:', adsPayload);
+        gtag('event', 'conversion', adsPayload);
+        console.log('✅ Google Ads conversion envoyée');
+
+        // 2. GOOGLE ANALYTICS 4 - Événement personnalisé avec send_to explicite
+        const ga4Payload = {
+          'send_to': 'G-864MHX1HKR',  // ✨ ENVOI EXPLICITE À GA4
           'event_category': 'Conversion',
           'event_label': conversionType === 'pdf_download' ? 'Téléchargement PDF' : 'Prise RDV Calendly',
           'value': value,
           'currency': 'EUR',
           ...extraData
-        });
+        };
 
-        console.log('✅ Google Ads + GA4 tracked');
+        console.log('📈 GA4 - Envoi événement:', conversionType, ga4Payload);
+        gtag('event', conversionType, ga4Payload);
+        console.log('✅ GA4 événement envoyé');
+
       } else {
-        console.warn('⚠️ gtag not loaded');
+        console.error('❌ gtag not loaded - tracking impossible');
       }
 
       // 3. META PIXEL - Lead event
       if (typeof fbq !== 'undefined') {
-        fbq('track', 'Lead', {
+        const metaPayload = {
           content_name: conversionType === 'pdf_download' ? 'PDF Configuration Tradihome' : 'RDV Calendly Tradihome',
           content_category: 'Configurateur',
           value: value,
           currency: 'EUR'
-        });
-        console.log('✅ Meta Pixel tracked');
+        };
+
+        console.log('📘 Meta Pixel - Envoi Lead:', metaPayload);
+        fbq('track', 'Lead', metaPayload);
+        console.log('✅ Meta Pixel Lead envoyé');
+
+        // Envoi également de l'événement standard avec valeur
+        fbq('trackCustom', conversionType, metaPayload);
+        console.log('✅ Meta Pixel custom event envoyé:', conversionType);
+
       } else {
-        console.warn('⚠️ fbq not loaded');
+        console.error('❌ fbq not loaded - Meta Pixel tracking impossible');
       }
+
+      console.log('📊 ================================= FIN TRACKING');
     }
 
     // ========== NOUVELLES FONCTIONS POUR L'INTERFACE ==========
