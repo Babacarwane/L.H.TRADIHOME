@@ -14,6 +14,15 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
+    // ✅ CONSENT MODE - Accepter le tracking dans l'iframe configurateur
+    // Ceci override le consent denied du parent Webflow
+    gtag('consent', 'update', {
+      'ad_storage': 'granted',
+      'ad_user_data': 'granted',
+      'ad_personalization': 'granted',
+      'analytics_storage': 'granted'  // ← Permet à GA4 de recevoir les événements
+    });
+
     // Google Tag
     gtag('config', 'GT-WPL2H37J');
 
@@ -2691,6 +2700,10 @@ body::before {
         console.log('📘 Meta Pixel - Envoi Lead:', metaPayload);
         fbq('track', 'Lead', metaPayload);
         console.log('✅ Meta Pixel Lead envoyé');
+
+        // Envoi également de l'événement custom détaillé (pdf_download ou calendly_booking)
+        fbq('trackCustom', conversionType, metaPayload);
+        console.log('✅ Meta Pixel custom event envoyé:', conversionType);
 
       } else {
         console.error('❌ fbq not loaded - Meta Pixel tracking impossible');
