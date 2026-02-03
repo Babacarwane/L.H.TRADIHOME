@@ -2661,9 +2661,9 @@ body::before {
         gtag('event', 'conversion', adsPayload);
         console.log('✅ Google Ads conversion envoyée');
 
-        // 2. GOOGLE ANALYTICS 4 - Événement personnalisé avec send_to explicite
+        // 2. GOOGLE ANALYTICS 4 - Événement personnalisé
+        // ⚠️ Pour GA4, on n'utilise PAS 'send_to', l'événement va automatiquement à tous les tags configurés
         const ga4Payload = {
-          'send_to': 'G-864MHX1HKR',  // ✨ ENVOI EXPLICITE À GA4
           'event_category': 'Conversion',
           'event_label': conversionType === 'pdf_download' ? 'Téléchargement PDF' : 'Prise RDV Calendly',
           'value': value,
@@ -2673,7 +2673,7 @@ body::before {
 
         console.log('📈 GA4 - Envoi événement:', conversionType, ga4Payload);
         gtag('event', conversionType, ga4Payload);
-        console.log('✅ GA4 événement envoyé');
+        console.log('✅ GA4 événement envoyé à G-864MHX1HKR');
 
       } else {
         console.error('❌ gtag not loaded - tracking impossible');
@@ -2691,10 +2691,6 @@ body::before {
         console.log('📘 Meta Pixel - Envoi Lead:', metaPayload);
         fbq('track', 'Lead', metaPayload);
         console.log('✅ Meta Pixel Lead envoyé');
-
-        // Envoi également de l'événement standard avec valeur
-        fbq('trackCustom', conversionType, metaPayload);
-        console.log('✅ Meta Pixel custom event envoyé:', conversionType);
 
       } else {
         console.error('❌ fbq not loaded - Meta Pixel tracking impossible');
